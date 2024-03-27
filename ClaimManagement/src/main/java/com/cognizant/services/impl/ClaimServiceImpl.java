@@ -49,10 +49,10 @@ public class ClaimServiceImpl implements ClaimService {
         Optional<Policy> optionalPolicy = policyRepo.findById(policyId);
         if (optionalPolicy.isPresent()) {
             Policy policy = optionalPolicy.get();
-            
+           
             // Generate POLICY ID AUTO
             String generatedPolicyId = PolicyIdGenerator.generatePolicyId(policy.getInsuredLastName(),
-            		policy.getVehicleNo(), policy.getDateOfInsurance());
+            		policy.getVehicleNo(), policy.getDateOfInsurance());   
             
             // Check for existing claims in current year
             int year = LocalDate.now().getYear();
@@ -62,14 +62,10 @@ public class ClaimServiceImpl implements ClaimService {
             }
             // Generate claimID AUTO
             String claimId = ClaimIdGenerator.generateClaimId(policyId);
-            claimDetailsDto.setClaimId(claimId);
-            
-            // Check surveyor eligibility based on estimated loss
-            int estimatedLoss = claimDetailsDto.getEstimatedLoss();
-            Surveyor assignedSurveyor = findEligibleSurveyor(estimatedLoss);
-            claimDetailsDto.setSurveyorId(assignedSurveyor.getSurveyorld());
+            claimDetailsDto.setClaimId(claimId); 
             
             // Calculate surveyor fees
+            int estimatedLoss = claimDetailsDto.getEstimatedLoss();
             claimDetailsDto.setSurveyorFees(calculateSurveyorFee(estimatedLoss));
             claimDetailsDto.setPolicyNo(generatedPolicyId);
             

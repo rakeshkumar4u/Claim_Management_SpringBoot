@@ -31,7 +31,7 @@ public class ClaimServiceControllerTest {
  
     @Test
     public void insertClaim_ValidClaimDetails_ReturnsCreated() {
-        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto("CL123", "POL123", 5000, LocalDate.now(), false, 0, 0, false, false, 0);
+        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto("CL123", "POL123", 5000, LocalDate.now(), false, 0, false, false, 0);
         when(claimService.insertClaim(eq(claimDetailsDto))).thenReturn(claimDetailsDto);
  
         ResponseEntity<ClaimDetailsDto> responseEntity = claimServiceController.insertClaim(claimDetailsDto);
@@ -44,7 +44,7 @@ public class ClaimServiceControllerTest {
     @Test
     public void insertClaim_InvalidClaimDetails_ReturnsBadRequest() {
         
-        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto("CL456", null, 0, null, false, 0, 0, false, false, 0);
+        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto("CL456", null, 0, null, false, 0, false, false, 0);
  
         ResponseEntity<ClaimDetailsDto> responseEntity = claimServiceController.insertClaim(claimDetailsDto);
  
@@ -54,7 +54,7 @@ public class ClaimServiceControllerTest {
  
     @Test
     public void insertClaim_ExceptionThrownByService_ReturnsInternalServerError() {
-        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto("CL789", "POL789", 10000, LocalDate.now(), true, 0, 0, false, false, 0);
+        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto("CL789", "POL789", 10000, LocalDate.now(), true, 0, false, false, 0);
         when(claimService.insertClaim(eq(claimDetailsDto))).thenThrow(RuntimeException.class);
  
         ResponseEntity<ClaimDetailsDto> responseEntity = claimServiceController.insertClaim(claimDetailsDto);
@@ -67,7 +67,7 @@ public class ClaimServiceControllerTest {
     public void updateClaim_ValidClaimDetails_ReturnsOk() {
         
         String claimId = "CL123";
-        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto("CL123", "POL123", 5000, LocalDate.now(), true, 0, 0, false, false, 0);
+        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto("CL123", "POL123", 5000, LocalDate.now(), true, 0, false, false, 0);
         when(claimService.updateClaim(eq(claimDetailsDto), eq(claimId))).thenReturn(claimDetailsDto);
  
         ResponseEntity<ClaimDetailsDto> responseEntity = claimServiceController.updateClaim(claimDetailsDto, claimId);
@@ -80,7 +80,7 @@ public class ClaimServiceControllerTest {
     public void updateClaim_InvalidClaimDetails_ReturnsBadRequest() {
         
         String claimId = "CL456";
-        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto("CL456", null, 0, null, false, 0, 0, false, false, 0);
+        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto("CL456", null, 0, null, false, 0, false, false, 0);
  
         ResponseEntity<ClaimDetailsDto> responseEntity = claimServiceController.updateClaim(claimDetailsDto, claimId);
  
@@ -93,7 +93,7 @@ public class ClaimServiceControllerTest {
     public void updateClaim_ExceptionThrownByService_ReturnsInternalServerError() {
        
         String claimId = "CL789";
-        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto("CL789", "POL789", 10000, LocalDate.now(), true, 0, 0, false, false, 0);
+        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto("CL789", "POL789", 10000, LocalDate.now(), true, 0, false, false, 0);
         when(claimService.updateClaim(eq(claimDetailsDto), eq(claimId))).thenThrow(RuntimeException.class);
  
         ResponseEntity<ClaimDetailsDto> responseEntity = claimServiceController.updateClaim(claimDetailsDto, claimId);

@@ -27,8 +27,6 @@ public class ClaimDetailsDto {
 
 	@AssertTrue(message="ClaimStatus must be either closed(true) or open (false.")
 	private boolean claimStatus;
-
-	private int surveyorId;
 	
 	@Min(value=0,message="The value cannot be negative")
 	private int amtApprovedBySurveyor;

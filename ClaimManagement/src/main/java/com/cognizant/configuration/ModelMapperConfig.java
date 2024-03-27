@@ -10,11 +10,11 @@ import com.cognizant.entities.ClaimDetails;
 import org.modelmapper.convention.MatchingStrategies;
 @Configuration
 public class ModelMapperConfig {
-
+	
 	@Bean
 	public ModelMapper modelMapper() {
 		ModelMapper modelMapper = new ModelMapper();
-
+		
 // Set matching strategy to strict to avoid unintended mappings
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
@@ -25,7 +25,6 @@ public class ModelMapperConfig {
 // Add explicit mapping for policyNo from PolicyDto to ClaimDetailsDto 
 		modelMapper.typeMap(PolicyDto.class, ClaimDetailsDto.class)
 		.addMapping(PolicyDto::getPolicyNo,ClaimDetailsDto::setPolicyNo);
-
 		return modelMapper;
 	}
 }

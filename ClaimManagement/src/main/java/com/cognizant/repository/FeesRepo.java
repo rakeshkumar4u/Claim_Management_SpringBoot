@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cognizant.entities.Fees;
 
-//@Repository
+@Repository
 public interface FeesRepo extends JpaRepository<Fees,Integer> {
 
 }

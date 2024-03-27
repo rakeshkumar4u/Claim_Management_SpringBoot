@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cognizant.entities.Policy;
 
-//@Repository
+@Repository
 public interface PolicyRepo extends JpaRepository<Policy, String> {
 
 }

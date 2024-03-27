@@ -1,40 +1,42 @@
 package com.cognizant.dto;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
-import org.springframework.beans.factory.annotation.Value;
-
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClaimDetailsDto {
 	
-	@Size(min=10)
-	private String ClaimId;
+	@Size(min=10,max=10,message="size must be between 10 and 10")
+	private String claimId;
 
-	private String PolicyNo;
+	private String policyNo;
+	@Min(value=0,message="The value cannot be negative")
+	private int estimatedLoss;
 	
-	@PositiveOrZero
-	private Integer EstimatedLoss;
-	
-	private Date DateOfAccident;
+	@PastOrPresent
+	private LocalDate dateOfAccident;
 
-	private Boolean ClaimStatus;
+	@AssertTrue(message="ClaimStatus must be either closed(true) or open (false.")
+	private boolean claimStatus;
 
-	private Integer SurveyorId;
+	private int surveyorId;
 	
-	@PositiveOrZero
-	private Integer AmtApprovedBySurveyor;
+	@Min(value=0,message="The value cannot be negative")
+	private int amtApprovedBySurveyor;
     
-	@Value("${insurance.company.approval:false}")
-	private Boolean InsuranceCompanyApproval;
+	private boolean insuranceCompanyApproval=false;
     
-	@Value("${withdraw.claim:false}")
-	private Boolean WithdrawClaim;
+	private boolean withdrawClaim=false;
 
-	private Integer SurveyorFees;
+	private int surveyorFees;
 
-	
 }

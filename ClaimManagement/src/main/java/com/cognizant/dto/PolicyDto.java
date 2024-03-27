@@ -1,30 +1,39 @@
 package com.cognizant.dto;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PolicyDto {
 	
-	@Size(min=10)
-	private String PolicyNo;
+	private String policyNo;
 	
-	@Size(min=5)
-	private String InsuredFirstName;
+	@Size(min=5,message="First Name should be of min 5 character")
+	private String insuredFirstName;
 	
-	@Size(min=5)
-	private String InsuredLastName;
+	@Size(min=5,message="Last Name should be of min 5 character")
+	private String insuredLastName;
     
-	
-	private Date DateOfInsurance;
+	@PastOrPresent(message="Date of insurance must not be earlier than current date")
+	private LocalDate dateOfInsurance;
  
-	private String EmailId;
+	@Email
+	private String emailId;
 
-	private String VehicleNo;
+	private String vehicleNo;
 
-	private Boolean status;
+	private boolean status;
 
 }
+
+

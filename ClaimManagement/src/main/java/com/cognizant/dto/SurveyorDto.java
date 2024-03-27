@@ -1,21 +1,25 @@
 package com.cognizant.dto;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.PositiveOrZero;
-
+import jakarta.validation.constraints.Min;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SurveyorDto {
+
+
+	private int surveyorld;
 	
-	@NotEmpty
-	private Integer Surveyorld;
+	private String firstName;
 	
-	private String FirstName;
-	
-	private String LastName;
+	private String lastName;
     
-	@PositiveOrZero
-	private Integer EstimateLimt;
+	@Min(value=0,message="The value cannot be negative")
+	private int estimateLimt;
 
 }
+
+

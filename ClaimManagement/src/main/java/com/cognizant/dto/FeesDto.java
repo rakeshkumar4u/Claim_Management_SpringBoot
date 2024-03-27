@@ -2,21 +2,25 @@ package com.cognizant.dto;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class FeesDto {
 	
-	private Integer FeeId;
+	private int feeId;
 	
 	@Min(value=0)
-	private Integer EstimateStartLimit;
+	private int estimateStartLimit;
     
 	@Min(value=0)
 	@Max(value=Integer.MAX_VALUE)
-	private Integer EstimateEndLimit;
+	private int estimateEndLimit;
 
-	private Integer fees;
+	private int fees;
 
 }

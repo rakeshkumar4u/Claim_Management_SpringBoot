@@ -1,28 +1,23 @@
 package com.cognizant.repository;
 
-import java.util.Optional;
+
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.cognizant.entities.ClaimDetails;
-
-//@Repository
+@Repository
 public interface ClaimDetailsRepo extends JpaRepository<ClaimDetails,String> {
-
-	Optional<ClaimDetails> findById(String claimId);
-
-	boolean existsByPolicyNoAndDateOfAccidentYear(String policyNo, int year);
-
-		@Query(value = "SELECT COUNT(cd) FROM ClaimDetails cd "
-            + "WHERE cd.ClaimStatus = ?1 AND YEAR(cd.DateOfAccident) = ?2 AND MONTH(cd.dateOfAccident) = ?3")
-    public long countByClaimStatusAndDateOfAccidentYearAndDateOfAccidentMonth(boolean ClaimStatus, int year, int month);
 	
-	
-	
-	@Query(value = "SELECT SUM(AmtApprovedBySurveyor) FROM ClaimDetails cd "
-            + "WHERE cd.insuranceCompanyApproval = true AND MONTH(cd.DateOfAccident) = ?1 AND YEAR(cd.DateOfAccident) = ?2", nativeQuery = true)
-    public double sumAmtApprovedByInsuranceCompanyByMonthAndYear(int month, int year);
+	@Query("SELECT cd FROM ClaimDetails cd JOIN cd.policy p WHERE p.policyNo = :policyId AND YEAR(cd.dateOfAccident) = :year")
+    List<ClaimDetails> findByPolicyNoAndDateOfAccidentYear(@Param("policyId") String policyId, @Param("year") int year);
 
+	  @Query("SELECT COUNT(cd) FROM ClaimDetails cd WHERE cd.claimStatus = :claimStatus AND YEAR(cd.dateOfAccident) = :year AND MONTH(cd.dateOfAccident) = :month")
+	    int countByClaimStatusAndDateOfAccidentYearMonth(@Param("claimStatus") boolean claimStatus, @Param("year") int year, @Param("month") int month);
+	 
+	   @Query("SELECT SUM(cd.amtApprovedBySurveyor) FROM ClaimDetails cd WHERE cd.claimStatus = :claimStatus AND YEAR(cd.dateOfAccident) = :year AND MONTH(cd.dateOfAccident) = :month")
+	   double sumAmtApprovedBySurveyorByClaimStatusAndDateOfAccidentYearMonth(@Param("claimStatus") boolean claimStatus, @Param("year") int year, @Param("month") int month);
 }

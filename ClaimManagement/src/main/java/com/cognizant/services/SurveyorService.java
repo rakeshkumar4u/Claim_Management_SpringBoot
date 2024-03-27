@@ -5,7 +5,8 @@ import java.util.List;
 import com.cognizant.dto.SurveyorDto;
 
 public interface SurveyorService {
-	
-	List<SurveyorDto> getAllSurveyors();
+
+	public List<SurveyorDto> getAllSurveyors();
+	SurveyorDto insertSurveyor(SurveyorDto surveyorDto);
 
 }

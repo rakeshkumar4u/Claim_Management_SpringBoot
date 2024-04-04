@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClaimDetailsDto {
 	
-	@Size(min=10,max=10,message="size must be between 10 and 10")
+	@Size(min=10,max=10,message="size must be 10")
 	private String claimId;
 
 	private String policyNo;

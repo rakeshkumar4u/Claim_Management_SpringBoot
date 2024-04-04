@@ -43,7 +43,9 @@ public class ClaimServiceImpl implements ClaimService {
     @Override
     @Transactional
     public ClaimDetailsDto insertClaim(ClaimDetailsDto claimDetailsDto) {
+    	
         String policyId = claimDetailsDto.getPolicyNo();  
+        LocalDate dateOfAccident=claimDetailsDto.getDateOfAccident();
         
         // Check if policy with the given ID exists
         Optional<Policy> optionalPolicy = policyRepo.findById(policyId);
@@ -61,7 +63,7 @@ public class ClaimServiceImpl implements ClaimService {
                 throw new MaximumClaimLimitReachedException("Maximum claim limit reached for this year");
             }
             // Generate claimID AUTO
-            String claimId = ClaimIdGenerator.generateClaimId(policyId);
+            String claimId = ClaimIdGenerator.generateClaimId(policyId,dateOfAccident);
             claimDetailsDto.setClaimId(claimId); 
             
             // Calculate surveyor fees

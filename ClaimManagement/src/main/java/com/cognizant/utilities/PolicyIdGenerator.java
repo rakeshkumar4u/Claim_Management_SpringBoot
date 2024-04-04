@@ -1,25 +1,39 @@
 package com.cognizant.utilities;
  
-import java.sql.Date;
 import java.time.LocalDate;
  
 public class PolicyIdGenerator {
-    public static String generatePolicyId(String insuredLastName, String vehicleNo, LocalDate date) {
-
-    	 if (insuredLastName == null || vehicleNo == null || date == null) {
-             throw new IllegalArgumentException("Input parameters cannot be null");
-         }
-        String firstTwoLetters = insuredLastName.substring(0, 2).toUpperCase();
-        String numericVehicleNo = vehicleNo.replaceAll("[^0-9]", "");
+	 
+    public static String generatePolicyId(String insuredLastName, String vehicleNo, LocalDate dateOfInsurance) {
+        // Extract first two letters of InsuredLastName
+        String firstTwoLetters = insuredLastName.substring(0, Math.min(insuredLastName.length(), 2)).toUpperCase();
  
-        // Handle null or empty vehicle number
-        int parsedVehicleNo = numericVehicleNo.isEmpty() ? 0 : Integer.parseInt(numericVehicleNo);
-        String formattedVehicleNo = String.format("%03d", parsedVehicleNo);
+        // Extract a 3-digit number from VehicleNo
+        String vehicleNumber = extractDigits(vehicleNo);
  
-        int year = date.getYear() % 100; // Get last 2 digits of the year
+        // Extract last two digits of the year from DateOfInsurance
+        int year = dateOfInsurance.getYear() % 100;
  
-        return firstTwoLetters + formattedVehicleNo + String.format("%02d", year);
+        // Format the PolicyId
+        String policyId = String.format("%s%s%02d", firstTwoLetters, vehicleNumber, year);
+        
+        return policyId;
+    }
+ 
+    private static String extractDigits(String input) {
+        StringBuilder digits = new StringBuilder();
+        for (char c : input.toCharArray()) {
+            if (Character.isDigit(c)) {
+                digits.append(c);
+                if (digits.length() == 3) { // Stop when 3 digits are extracted
+                    break;
+                }
+            }
+        }
+        // If fewer than 3 digits are found, pad with zeros
+        while (digits.length() < 3) {
+            digits.insert(0, '0');
+        }
+        return digits.toString();
     }
 }
-
-

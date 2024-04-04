@@ -38,6 +38,7 @@ public class Policy {
     @Column(name = "Status")
     private boolean status;
  
+    //A Policy entity can have multiple ClaimDetails
     @OneToMany(mappedBy = "policy")
     private List<ClaimDetails> claimDetails;
   

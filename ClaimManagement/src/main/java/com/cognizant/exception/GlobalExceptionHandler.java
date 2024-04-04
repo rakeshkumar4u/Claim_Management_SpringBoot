@@ -10,16 +10,17 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
- 
+
+// Centralized Exception handling for REST Controller
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
- 	// Exception Handling in Controller
+// Methods that will handle special type of exception during processing of HTTP Request
     @ExceptionHandler(InvalidPolicyException.class)
     public ResponseEntity<String> handleInvalidPolicyException(InvalidPolicyException ex ) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
-    
+ 
  
     @ExceptionHandler(MaximumClaimLimitReachedException.class)
     public ResponseEntity<String> handleMaximumClaimLimitReachedException(MaximumClaimLimitReachedException ex) {
@@ -35,8 +36,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleNoEligibleSurveyorException(NoEligibleSurveyorException ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
     }
-    
-    
+      
     //Exception Handling for Bean Validation
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleMethodArgsNotValidException(MethodArgumentNotValidException ex) {

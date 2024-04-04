@@ -18,7 +18,8 @@ public class ClaimDetailsDto {
 	@Size(min=10,max=10,message="size must be 10")
 	private String claimId;
 
-	private String policyNo;
+	private PolicyDto policy;
+	
 	@Min(value=0,message="The value cannot be negative")
 	private int estimatedLoss;
 	
@@ -27,6 +28,8 @@ public class ClaimDetailsDto {
 
 	@AssertTrue(message="ClaimStatus must be either closed(true) or open (false.")
 	private boolean claimStatus;
+	
+	private SurveyorDto surveyor;
 	
 	@Min(value=0,message="The value cannot be negative")
 	private int amtApprovedBySurveyor;

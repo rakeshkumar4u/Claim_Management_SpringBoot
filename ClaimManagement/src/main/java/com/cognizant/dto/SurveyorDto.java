@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class SurveyorDto {
 
 
-	private int surveyorld;
+	private int surveyorId;
 	
 	private String firstName;
 	

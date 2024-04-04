@@ -20,7 +20,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleInvalidPolicyException(InvalidPolicyException ex ) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
- 
+    @ExceptionHandler(InvalidSurveyorException.class)
+    public ResponseEntity<String> handleInvalidSurveyorException(InvalidSurveyorException ex ) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
  
     @ExceptionHandler(MaximumClaimLimitReachedException.class)
     public ResponseEntity<String> handleMaximumClaimLimitReachedException(MaximumClaimLimitReachedException ex) {

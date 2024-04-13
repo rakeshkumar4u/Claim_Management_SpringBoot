@@ -49,19 +49,15 @@ public class SurveyorController {
     
     @PutMapping("/{claimId}")
     public ResponseEntity<SurveyorFeesDto> releaseSurveyorFees(@PathVariable String claimId) {
-        // Call the releaseSurveyorFees method from the SurveyorService
-        SurveyorFeesDto surveyorFeesDTO = surveyorService.releaseSurveyorFees(claimId);
-        
+        SurveyorFeesDto surveyorFeesDto = surveyorService.releaseSurveyorFees(claimId); 
         // Check if the surveyorFeesDTO is null or invalid
-        if (surveyorFeesDTO == null) {
+        if (surveyorFeesDto== null) {
             return ResponseEntity.notFound().build();
         }
- 
-        // Return the surveyorFeesDTO in the response body with HTTP status OK
-        return ResponseEntity.ok(surveyorFeesDTO);
-    }
-	
+        return ResponseEntity.ok(surveyorFeesDto);
+    }	
 }
+
 
 
 

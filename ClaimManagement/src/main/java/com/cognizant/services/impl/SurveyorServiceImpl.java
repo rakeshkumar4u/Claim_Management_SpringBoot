@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cognizant.dto.SurveyorDto;
+import com.cognizant.dto.SurveyorFeesDto;
+import com.cognizant.entities.ClaimDetails;
 import com.cognizant.entities.Surveyor;
+import com.cognizant.exception.ResourceNotFoundException;
+import com.cognizant.repository.ClaimDetailsRepo;
 import com.cognizant.repository.SurveyorRepo;
 import com.cognizant.services.SurveyorService;
 
@@ -18,13 +22,15 @@ import jakarta.transaction.Transactional;
 public class SurveyorServiceImpl implements SurveyorService {
 	
 	private final SurveyorRepo surveyorRepo;
+	private final ClaimDetailsRepo claimDetailsRepo;
 	private final ModelMapper modelMapper;
 	
 	@Autowired
-	public SurveyorServiceImpl(SurveyorRepo surveyorRepo,ModelMapper modelMapper)
+	public SurveyorServiceImpl(SurveyorRepo surveyorRepo,ClaimDetailsRepo claimDetailsRepo, ModelMapper modelMapper)
 	{
 		this.surveyorRepo=surveyorRepo;
 		this.modelMapper=modelMapper;
+		this.claimDetailsRepo=claimDetailsRepo;
 	}
 	
 	
@@ -46,5 +52,34 @@ public class SurveyorServiceImpl implements SurveyorService {
 	        }
 	        return surveyorDtos;
 	}	
+	
+	@Override
+    public List<SurveyorDto> getSurveyorsByEstimatedLoss(int estimatedLoss) {
+        List<ClaimDetails> claimDetailsList = claimDetailsRepo.findByEstimatedLoss(estimatedLoss);
+        List<SurveyorDto> surveyorDtoList = new ArrayList<>();
+ 
+        for (ClaimDetails claimDetails : claimDetailsList) {
+       surveyorDtoList.add(modelMapper.map(claimDetails.getSurveyor(), SurveyorDto.class));
+        }
+ 
+        return surveyorDtoList;
+    }
+	
+	@Override
+	@Transactional
+	public SurveyorFeesDto releaseSurveyorFees(String claimId) {
+	    // Retrieve existing claim details
+	    ClaimDetails existingClaim = claimDetailsRepo.findById(claimId)
+	            .orElseThrow(() -> new ResourceNotFoundException("Claim not found with ID " + claimId));
+	 
+	    // Get the surveyor fee from the existing claim
+	    int surveyorFee = existingClaim.getSurveyorFees();
+	 
+	    // Create and return SurveyorFeesDTO
+	    SurveyorFeesDto surveyorFeesDto = new SurveyorFeesDto();
+	    surveyorFeesDto.setClaimId(claimId);
+	    surveyorFeesDto.setSurveyorFees(surveyorFee);
+	    return surveyorFeesDto;
+	}
 }
 

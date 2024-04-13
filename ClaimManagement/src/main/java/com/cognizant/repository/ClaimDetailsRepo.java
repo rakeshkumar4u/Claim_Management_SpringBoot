@@ -20,4 +20,6 @@ public interface ClaimDetailsRepo extends JpaRepository<ClaimDetails,String> {
 	 
 	   @Query("SELECT SUM(cd.amtApprovedBySurveyor) FROM ClaimDetails cd WHERE cd.claimStatus = :claimStatus AND YEAR(cd.dateOfAccident) = :year AND MONTH(cd.dateOfAccident) = :month")
 	   double sumAmtApprovedBySurveyorByClaimStatusAndDateOfAccidentYearMonth(@Param("claimStatus") boolean claimStatus, @Param("year") int year, @Param("month") int month);
+	   
+	   List<ClaimDetails> findByEstimatedLoss(int estimatedLoss);
 }

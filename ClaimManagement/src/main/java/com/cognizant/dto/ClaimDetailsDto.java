@@ -26,7 +26,6 @@ public class ClaimDetailsDto {
 	@PastOrPresent
 	private LocalDate dateOfAccident;
 
-	@AssertTrue(message="ClaimStatus must be either closed(true) or open (false.")
 	private boolean claimStatus;
 	
 	private SurveyorDto surveyor;

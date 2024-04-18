@@ -12,6 +12,8 @@ public interface ClaimService {
 	
 	public List<ClaimDetailsDto> getAllClaims();
 	
+	ClaimDetailsDto getClaimDetailsById(String claimId);
+	
 }
 
 

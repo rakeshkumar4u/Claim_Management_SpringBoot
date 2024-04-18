@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.cognizant.services.ClaimService;
 import jakarta.validation.Valid;
 
 @RestController
+@CrossOrigin(origins="http://localhost:4200")
 @RequestMapping("/api/claims")
 public class ClaimServiceController {
 	
@@ -44,6 +46,11 @@ public class ClaimServiceController {
         List<ClaimDetailsDto> claimDetailsDtos = claimService.getAllClaims();
         return ResponseEntity.ok(claimDetailsDtos);
     }
+	
+	@GetMapping("/{claimId}")
+	public ResponseEntity<ClaimDetailsDto> getSingleClaim(@PathVariable String claimId) {
+		return ResponseEntity.ok(this.claimService.getClaimDetailsById(claimId));
+	}
 }
 
 

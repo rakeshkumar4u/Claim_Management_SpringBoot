@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.cognizant.dto.ClaimDetailsDto;
+import com.cognizant.dto.SurveyorDto;
 import com.cognizant.entities.ClaimDetails;
 import com.cognizant.entities.Policy;
 import com.cognizant.entities.Surveyor;
@@ -64,9 +65,13 @@ public class ClaimServiceImpl implements ClaimService {
 		// Generate claimID AUTO
 		String claimId = ClaimIdGenerator.generateClaimId(policy.getPolicyNo(), claimDetailsDto.getDateOfAccident());
 		claimDetailsDto.setClaimId(claimId);
+		
+		// Check surveyor eligibility based on estimated loss
+        int estimatedLoss = claimDetailsDto.getEstimatedLoss();
+        Surveyor assignedSurveyor = findEligibleSurveyor(estimatedLoss);
+        claimDetailsDto.setSurveyor(modelMapper.map(assignedSurveyor, SurveyorDto.class));
 
 		// Calculate surveyor fees
-		int estimatedLoss = claimDetailsDto.getEstimatedLoss();
 		claimDetailsDto.setSurveyorFees(calculateSurveyorFee(estimatedLoss));
 
 		// Map DTO to entity and save
@@ -92,13 +97,14 @@ public class ClaimServiceImpl implements ClaimService {
 		existingClaim.setClaimStatus(claimDetailsDto.isClaimStatus());
 		existingClaim.setAmtApprovedBySurveyor(claimDetailsDto.getAmtApprovedBySurveyor());
 
-		// Retrieve the existing surveyor entity by surveyorId from SurveyorDto
+		//Retrieve the existing surveyor entity by surveyorId from SurveyorDto
 		int surveyorId = claimDetailsDto.getSurveyor().getSurveyorId(); // Assuming this is how you get the surveyorId
 		Surveyor surveyor = surveyorRepo.findById(surveyorId)
 				.orElseThrow(() -> new ResourceNotFoundException("Surveyor not found with ID " + surveyorId));
 
 		// Update the surveyor associated with the claim
 		existingClaim.setSurveyor(surveyor);
+		
 
 		// Save the updated claim details
 		ClaimDetails updatedClaim = claimDetailsRepo.save(existingClaim);
@@ -116,13 +122,22 @@ public class ClaimServiceImpl implements ClaimService {
 		}
 		return claimDetailsDtos;
 	}
+	
+
+	@Override
+	public ClaimDetailsDto getClaimDetailsById(String claimId) {
+
+		ClaimDetails claimDetails = this.claimDetailsRepo.findById(claimId)
+				.orElseThrow(() -> new ResourceNotFoundException("Claim not found with ID " + claimId));
+
+		return this.modelMapper.map(claimDetails,ClaimDetailsDto.class);
+	}
 //=================================IMPL Business Logics====================================================
 
 	public Surveyor findEligibleSurveyor(int estimatedLoss) {
 		List<Surveyor> surveyors = surveyorRepo.findAll();
 
-		// Find a Surveyor whose estimateLimit is greater than or equal to the estimated
-		// Loss
+		// Find a Surveyor whose estimateLimit is greater than or equal to the estimated Loss
 		for (Surveyor surveyor : surveyors) {
 			if (surveyor.getEstimateLimt() >= estimatedLoss) {
 				return surveyor;

@@ -41,7 +41,7 @@ public class SurveyorController {
 		return new ResponseEntity<>(insertedSurveyorDto,HttpStatus.CREATED);
 	}
     
-    @GetMapping("/findByEstimatedLoss/{estimatedLoss}")
+    @GetMapping("/{estimatedLoss}")
     public ResponseEntity<List<SurveyorDto>> findByEstimatedLoss(@PathVariable int estimatedLoss) {
         List<SurveyorDto> surveyorDtoList = surveyorService.getSurveyorsByEstimatedLoss(estimatedLoss);
         return new ResponseEntity<>(surveyorDtoList, HttpStatus.OK);

@@ -44,12 +44,11 @@ public class ClaimServiceImpl implements ClaimService {
 	@Override
 	@Transactional
 	public ClaimDetailsDto insertClaim(ClaimDetailsDto claimDetailsDto) {
-		// Retrieve Policy entity
+
 		Policy policy = policyRepo.findById(claimDetailsDto.getPolicy().getPolicyNo())
 				.orElseThrow(() -> new InvalidPolicyException(
 						"Policy not found for ID: " + claimDetailsDto.getPolicy().getPolicyNo()));
 
-		// Retrieve Surveyor entity
 		Surveyor surveyor = surveyorRepo.findById(claimDetailsDto.getSurveyor().getSurveyorId())
 				.orElseThrow(() -> new InvalidSurveyorException(
 						"Surveyor not found for ID: " + claimDetailsDto.getSurveyor().getSurveyorId()));
@@ -62,7 +61,6 @@ public class ClaimServiceImpl implements ClaimService {
 			throw new MaximumClaimLimitReachedException("Maximum claim limit reached for this year");
 		}
 
-		// Generate claimID AUTO
 		String claimId = ClaimIdGenerator.generateClaimId(policy.getPolicyNo(), claimDetailsDto.getDateOfAccident());
 		claimDetailsDto.setClaimId(claimId);
 		
@@ -89,16 +87,15 @@ public class ClaimServiceImpl implements ClaimService {
 	@Override
 	@Transactional
 	public ClaimDetailsDto updateClaim(ClaimDetailsDto claimDetailsDto, String claimId) {
-		// Retrieve existing claim details
+
 		ClaimDetails existingClaim = claimDetailsRepo.findById(claimId)
 				.orElseThrow(() -> new ResourceNotFoundException("Claim not found with ID " + claimId));
 
-		// Update claim status and amount approved by surveyor
 		existingClaim.setClaimStatus(claimDetailsDto.isClaimStatus());
 		existingClaim.setAmtApprovedBySurveyor(claimDetailsDto.getAmtApprovedBySurveyor());
 
 		//Retrieve the existing surveyor entity by surveyorId from SurveyorDto
-		int surveyorId = claimDetailsDto.getSurveyor().getSurveyorId(); // Assuming this is how you get the surveyorId
+		int surveyorId = claimDetailsDto.getSurveyor().getSurveyorId();
 		Surveyor surveyor = surveyorRepo.findById(surveyorId)
 				.orElseThrow(() -> new ResourceNotFoundException("Surveyor not found with ID " + surveyorId));
 
@@ -143,7 +140,6 @@ public class ClaimServiceImpl implements ClaimService {
 				return surveyor;
 			}
 		}
-		// If no suitable surveyor found
 		throw new NoEligibleSurveyorException("No surveyor found with a high enough estimate limit");
 	}
 

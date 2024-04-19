@@ -82,4 +82,3 @@ public class SurveyorServiceImpl implements SurveyorService {
 	    return surveyorFeesDto;
 	}
 }
-

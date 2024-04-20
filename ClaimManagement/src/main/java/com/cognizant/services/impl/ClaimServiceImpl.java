@@ -58,7 +58,7 @@ public class ClaimServiceImpl implements ClaimService {
 		List<ClaimDetails> existingClaims = claimDetailsRepo.findByPolicyNoAndDateOfAccidentYear(policy.getPolicyNo(),
 				year);
 		if (!existingClaims.isEmpty()) {
-			throw new MaximumClaimLimitReachedException("Maximum claim limit reached for this year");
+			throw new MaximumClaimLimitReachedException("Maximum claim limit reached for this year: "+year);
 		}
 
 		String claimId = ClaimIdGenerator.generateClaimId(policy.getPolicyNo(), claimDetailsDto.getDateOfAccident());

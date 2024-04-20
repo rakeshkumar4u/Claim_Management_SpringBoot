@@ -12,6 +12,7 @@ import com.cognizant.dto.SurveyorFeesDto;
 import com.cognizant.entities.ClaimDetails;
 import com.cognizant.entities.Surveyor;
 import com.cognizant.exception.ResourceNotFoundException;
+import com.cognizant.exception.SurveyorExistsException;
 import com.cognizant.repository.ClaimDetailsRepo;
 import com.cognizant.repository.SurveyorRepo;
 import com.cognizant.services.SurveyorService;
@@ -34,13 +35,21 @@ public class SurveyorServiceImpl implements SurveyorService {
 	}
 	
 	
-	@Override
-	@Transactional
-	public SurveyorDto insertSurveyor(SurveyorDto surveyorDto) {
-		Surveyor surv=this.modelMapper.map(surveyorDto,Surveyor.class);
-		Surveyor addedSurv=this.surveyorRepo.save(surv); 
-		return this.modelMapper.map(addedSurv,SurveyorDto.class);
-	}
+	 @Override
+	    @Transactional
+	    public SurveyorDto insertSurveyor(SurveyorDto surveyorDto) {
+	        // Check if a surveyor with the same estimateLimt already exists
+	        Surveyor existingSurveyor = surveyorRepo.findByEstimateLimt(surveyorDto.getEstimateLimt());
+	        if (existingSurveyor != null) {
+	            throw new SurveyorExistsException("Surveyor already exists with estimateLimt: " + surveyorDto.getEstimateLimt());
+	        }
+	 
+	       Surveyor surveyor = modelMapper.map(surveyorDto, Surveyor.class);
+	       Surveyor addedSurveyor = surveyorRepo.save(surveyor);
+	 
+	      return modelMapper.map(addedSurveyor, SurveyorDto.class);
+	    }
+	
 
 	@Override
 	@Transactional
@@ -57,7 +66,11 @@ public class SurveyorServiceImpl implements SurveyorService {
     public List<SurveyorDto> getSurveyorsByEstimatedLoss(int estimatedLoss) {
         List<ClaimDetails> claimDetailsList = claimDetailsRepo.findByEstimatedLoss(estimatedLoss);
         List<SurveyorDto> surveyorDtoList = new ArrayList<>();
- 
+        
+        if(claimDetailsList.isEmpty()) {
+        	throw new ResourceNotFoundException("No Surveyor Found for estimated loss: "+estimatedLoss);
+        }
+           
         for (ClaimDetails claimDetails : claimDetailsList) {
        surveyorDtoList.add(modelMapper.map(claimDetails.getSurveyor(), SurveyorDto.class));
         }

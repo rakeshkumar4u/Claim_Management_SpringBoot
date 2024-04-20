@@ -35,9 +35,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
  
+    @ExceptionHandler(SurveyorExistsException.class)
+    public ResponseEntity<String> handleSurveyorExistsException(SurveyorExistsException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
     @ExceptionHandler(NoEligibleSurveyorException.class)
     public ResponseEntity<String> handleNoEligibleSurveyorException(NoEligibleSurveyorException ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+    }
+    @ExceptionHandler(VehicleNoAlreadyExistsException.class)
+    public ResponseEntity<String> handleVehicleNoAlreadyExistsException(VehicleNoAlreadyExistsException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
       
     //Exception Handling for Bean Validation

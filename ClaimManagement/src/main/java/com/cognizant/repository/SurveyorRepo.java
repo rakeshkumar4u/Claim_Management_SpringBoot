@@ -8,5 +8,6 @@ import com.cognizant.entities.Surveyor;
 
 @Repository
 public interface SurveyorRepo extends JpaRepository<Surveyor,Integer> {
+	Surveyor findByEstimateLimt(int estimateLimt);
 
 }

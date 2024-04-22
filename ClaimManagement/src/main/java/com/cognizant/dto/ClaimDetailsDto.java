@@ -2,7 +2,6 @@ package com.cognizant.dto;
 
 import java.time.LocalDate;
 
-import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;

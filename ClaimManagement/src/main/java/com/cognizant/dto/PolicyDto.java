@@ -3,6 +3,7 @@ package com.cognizant.dto;
 import java.time.LocalDate;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,7 @@ public class PolicyDto {
 	@Email
 	private String emailId;
 
+	@NotBlank(message="Vehicle Number is mandatory")
 	private String vehicleNo;
 
 	private boolean status;

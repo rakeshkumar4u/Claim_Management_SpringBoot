@@ -1,0 +1,14 @@
+com.cognizant
+com.cognizant.configuration
+com.cognizant.controller
+com.cognizant.controllertest
+com.cognizant.dto
+com.cognizant.entities
+com.cognizant.exception
+com.cognizant.logging
+com.cognizant.repository
+com.cognizant.repotest
+com.cognizant.services
+com.cognizant.services.impl
+com.cognizant.servicetest
+com.cognizant.utilities

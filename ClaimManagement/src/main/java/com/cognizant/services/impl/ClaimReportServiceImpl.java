@@ -16,17 +16,19 @@ public class ClaimReportServiceImpl implements ClaimReportService {
     {
     	this.claimDetailsRepo=claimDetailsRepo;
     }
- 
+    
     @Override
     public int getPendingClaimsCount(int month, int year) {
         return claimDetailsRepo.countByClaimStatusAndDateOfAccidentYearMonth(false, year, month);
     }
  
     @Override
-    public double getApprovedAmountByInsuranceCompany(int month, int year) {
-        return claimDetailsRepo.sumAmtApprovedBySurveyorByClaimStatusAndDateOfAccidentYearMonth(true, year, month);
+    public int getApprovedAmountByInsuranceCompany(int month, int year) {
+        return claimDetailsRepo.getApprovedAmountBySurveyorByInsuranceCompanyApprovalAndDateOfAccidentYearMonth(true, year, month);
     }
 }
+ 
+
 
 
 

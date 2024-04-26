@@ -1,9 +1,7 @@
 package com.cognizant.services;
 
-public interface ClaimReportService {
-	
-	int getPendingClaimsCount(int month,int year);
-	
-	double getApprovedAmountByInsuranceCompany(int month,int year);
+public interface ClaimReportService {	
+    int getPendingClaimsCount(int month,int year);	
+	int getApprovedAmountByInsuranceCompany(int month,int year);
 
 }

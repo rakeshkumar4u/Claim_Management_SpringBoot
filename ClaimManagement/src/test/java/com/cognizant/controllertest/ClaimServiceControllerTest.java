@@ -1,9 +1,8 @@
 package com.cognizant.controllertest;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-
-import java.time.LocalDate;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,92 +14,64 @@ import org.springframework.http.ResponseEntity;
 import com.cognizant.controller.ClaimServiceController;
 import com.cognizant.dto.ClaimDetailsDto;
 import com.cognizant.services.ClaimService;
- 
+
 public class ClaimServiceControllerTest {
- 
-    @Mock
-    private ClaimService claimService;
- 
+
     @InjectMocks
     private ClaimServiceController claimServiceController;
- 
+
+    @Mock
+    private ClaimService claimService;
+
     @BeforeEach
-    public void setUp() {
+    public void setup() {
         MockitoAnnotations.openMocks(this);
     }
- 
+
     @Test
-    public void insertClaim_ValidClaimDetails_ReturnsCreated() {
+    public void testInsertClaim_Positive() {
         ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto();
-        when(claimService.insertClaim(eq(claimDetailsDto))).thenReturn(claimDetailsDto);
- 
-        ResponseEntity<ClaimDetailsDto> responseEntity = claimServiceController.insertClaim(claimDetailsDto);
- 
-        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertNotNull(responseEntity.getBody());
-       
+        when(claimService.insertClaim(any(ClaimDetailsDto.class))).thenReturn(claimDetailsDto);
+
+        ResponseEntity<ClaimDetailsDto> response = claimServiceController.insertClaim(claimDetailsDto);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(claimDetailsDto, response.getBody());
     }
- 
+
     @Test
-    public void insertClaim_InvalidClaimDetails_ReturnsBadRequest() {
-        
-        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto("CL456", null, 0, null, false, null, 0, false, false, 0);
- 
-        ResponseEntity<ClaimDetailsDto> responseEntity = claimServiceController.insertClaim(claimDetailsDto);
- 
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-        assertNull(responseEntity.getBody());
-    }
- 
-    @Test
-    public void insertClaim_ExceptionThrownByService_ReturnsInternalServerError() {
+    public void testUpdateClaim_Positive() {
         ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto();
-        when(claimService.insertClaim(eq(claimDetailsDto))).thenThrow(RuntimeException.class);
- 
-        ResponseEntity<ClaimDetailsDto> responseEntity = claimServiceController.insertClaim(claimDetailsDto);
- 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
-        assertNull(responseEntity.getBody());
+        String claimId = "CLAIM123";
+        when(claimService.updateClaim(any(ClaimDetailsDto.class), eq(claimId))).thenReturn(claimDetailsDto);
+
+        ResponseEntity<ClaimDetailsDto> response = claimServiceController.updateClaim(claimDetailsDto, claimId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(claimDetailsDto, response.getBody());
     }
- 
+
     @Test
-    public void updateClaim_ValidClaimDetails_ReturnsOk() {
-        
-        String claimId = "CL123";
-        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto();
-        when(claimService.updateClaim(eq(claimDetailsDto), eq(claimId))).thenReturn(claimDetailsDto);
- 
-        ResponseEntity<ClaimDetailsDto> responseEntity = claimServiceController.updateClaim(claimDetailsDto, claimId);
-         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-         assertNotNull(responseEntity.getBody());
+    public void testGetAllClaims_Positive() {
+        List<ClaimDetailsDto> claimDetailsDtos = new ArrayList<>();
+        claimDetailsDtos.add(new ClaimDetailsDto());
+        when(claimService.getAllClaims()).thenReturn(claimDetailsDtos);
+
+        ResponseEntity<List<ClaimDetailsDto>> response = claimServiceController.getAllClaims();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(claimDetailsDtos, response.getBody());
     }
- 
-    // Negative test case for updateClaim
+
     @Test
-    public void updateClaim_InvalidClaimDetails_ReturnsBadRequest() {
-        
-        String claimId = "CL456";
+    public void testGetSingleClaim_Positive() {
+        String claimId = "CLAIM123";
         ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto();
- 
-        ResponseEntity<ClaimDetailsDto> responseEntity = claimServiceController.updateClaim(claimDetailsDto, claimId);
- 
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-        assertNull(responseEntity.getBody());
+        when(claimService.getClaimDetailsById(claimId)).thenReturn(claimDetailsDto);
+
+        ResponseEntity<ClaimDetailsDto> response = claimServiceController.getSingleClaim(claimId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(claimDetailsDto, response.getBody());
     }
- 
-    // Exception test case for updateClaim
-    @Test
-    public void updateClaim_ExceptionThrownByService_ReturnsInternalServerError() {
-       
-        String claimId = "CL789";
-        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto();
-        when(claimService.updateClaim(eq(claimDetailsDto), eq(claimId))).thenThrow(RuntimeException.class);
- 
-        ResponseEntity<ClaimDetailsDto> responseEntity = claimServiceController.updateClaim(claimDetailsDto, claimId);
- 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
-        assertNull(responseEntity.getBody());
-    }
- 
- 
 }

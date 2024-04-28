@@ -1,24 +1,53 @@
 package com.cognizant.repotest;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.cognizant.entities.Policy;
 import com.cognizant.repository.PolicyRepo;
-
-import java.util.Optional;
  
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
- 
+@ExtendWith(MockitoExtension.class)
 @DataJpaTest
-public class PolicyRepoTest {
+class PolicyRepoTest {
  
     @Mock
     private PolicyRepo policyRepo;
  
+    @BeforeEach
+    void setUp() {
+
+    }
+ 
+	// Positive test case: Check if policy exists by vehicle number
+	@Test
+	void testExistsByVehicleNo_Positive() {
+		String vehicleNo = "ABC123";
+		when(policyRepo.existsByVehicleNo(vehicleNo)).thenReturn(true);
+		boolean exists = policyRepo.existsByVehicleNo(vehicleNo);
+
+		// Then
+		assertTrue(exists);
+
+	}
+ 
+    @Test
+    void testExistsByVehicleNo_Negative() {
+        String vehicleNo = "XYZ789";
+        when(policyRepo.existsByVehicleNo(vehicleNo)).thenReturn(false);
+        boolean exists = policyRepo.existsByVehicleNo(vehicleNo);
+ 
+        // Then
+        assertFalse(exists);
+    }
+    
     @Test
     public void testFindByPolicyNo() {
         String policyNo = "POL123";
@@ -57,4 +86,5 @@ public class PolicyRepoTest {
         when(policyRepo.findById(policyNo)).thenThrow(new RuntimeException("Something went wrong!"));
         assertThrows(RuntimeException.class, () -> policyRepo.findById(policyNo));
     }
+
 }

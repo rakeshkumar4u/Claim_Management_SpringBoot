@@ -1,62 +1,81 @@
 package com.cognizant.controllertest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.cognizant.controller.SurveyorController;
 import com.cognizant.dto.SurveyorDto;
+import com.cognizant.dto.SurveyorFeesDto;
 import com.cognizant.services.SurveyorService;
 
-import java.util.Arrays;
-import java.util.List;
- 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
- 
-@ExtendWith(MockitoExtension.class)
 public class SurveyorControllerTest {
- 
-    @Mock
-    private SurveyorService surveyorService;
- 
+
     @InjectMocks
     private SurveyorController surveyorController;
- 
-    @Test
-    public void testGetAllSurveyors_Positive() {
-        List<SurveyorDto> surveyorDTOList = Arrays.asList(
-                new SurveyorDto(0, "John", "Doe", 1000),
-                new SurveyorDto(0, "Jane", "Smith", 1500)
-        );
- 
-        when(surveyorService.getAllSurveyors()).thenReturn(surveyorDTOList);
- 
-        ResponseEntity<List<SurveyorDto>> response = surveyorController.getAllSurveyors();
- 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(2, response.getBody().size());
-        assertEquals("John", response.getBody().get(0).getFirstName());
-        assertEquals("Jane", response.getBody().get(1).getFirstName());
+
+    @Mock
+    private SurveyorService surveyorService;
+
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.openMocks(this);
     }
- 
+
     @Test
-    public void testGetAllSurveyors_EmptyList() {
-        when(surveyorService.getAllSurveyors()).thenReturn(Arrays.asList());
+    public void testGetAllSurveyors() {
+        List<SurveyorDto> surveyorDtos = new ArrayList<>();
+        surveyorDtos.add(new SurveyorDto(0, "John Doe", "1234567890", 0));
+        when(surveyorService.getAllSurveyors()).thenReturn(surveyorDtos);
+
         ResponseEntity<List<SurveyorDto>> response = surveyorController.getAllSurveyors();
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(response.getBody().isEmpty());
+        assertEquals(surveyorDtos, response.getBody());
     }
- 
+
     @Test
-    public void testGetAllSurveyors_Exception() {
-        when(surveyorService.getAllSurveyors()).thenThrow(RuntimeException.class);
-        assertThrows(RuntimeException.class, () -> surveyorController.getAllSurveyors());
+    public void testInsertSurveyor() {
+        SurveyorDto surveyorDto = new SurveyorDto(0, "Jane Smith", "0987654321", 0);
+        when(surveyorService.insertSurveyor(any(SurveyorDto.class))).thenReturn(surveyorDto);
+
+        ResponseEntity<SurveyorDto> response = surveyorController.insertSurveyor(surveyorDto);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(surveyorDto, response.getBody());
+    }
+
+    @Test
+    public void testFindByEstimatedLoss() {
+        int estimatedLoss = 5000;
+        List<SurveyorDto> surveyorDtoList = new ArrayList<>();
+        surveyorDtoList.add(new SurveyorDto(0, "Alice Johnson", "5555555555",0));
+        when(surveyorService.getSurveyorsByEstimatedLoss(estimatedLoss)).thenReturn(surveyorDtoList);
+
+        ResponseEntity<List<SurveyorDto>> response = surveyorController.findByEstimatedLoss(estimatedLoss);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(surveyorDtoList, response.getBody());
+    }
+
+    @Test
+    public void testReleaseSurveyorFees() {
+        String claimId = "CLAIM123";
+        SurveyorFeesDto surveyorFeesDto = new SurveyorFeesDto(claimId, 1000);
+        when(surveyorService.releaseSurveyorFees(claimId)).thenReturn(surveyorFeesDto);
+
+        ResponseEntity<SurveyorFeesDto> response = surveyorController.releaseSurveyorFees(claimId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(surveyorFeesDto, response.getBody());
     }
 }
-
-

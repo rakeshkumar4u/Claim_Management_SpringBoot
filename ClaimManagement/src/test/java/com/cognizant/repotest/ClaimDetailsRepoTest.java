@@ -29,6 +29,14 @@ public class ClaimDetailsRepoTest {
         int result = claimDetailsRepo.countByClaimStatusAndDateOfAccidentYearMonth(claimStatus, year, month);
         assertTrue(result >= 0);
     }
+    
+    
+    
+    
+    
+    
+    
+    
 /*
     @Test
     void testGetApprovedAmountBySurveyorByInsuranceCompanyApprovalAndDateOfAccidentYearMonth_Positive() {

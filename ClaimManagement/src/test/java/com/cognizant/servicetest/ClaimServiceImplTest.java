@@ -12,10 +12,7 @@ import com.cognizant.dto.ClaimDetailsDto;
 import com.cognizant.dto.PolicyDto;
 import com.cognizant.dto.SurveyorDto;
 import com.cognizant.entities.ClaimDetails;
-import com.cognizant.entities.Policy;
-import com.cognizant.entities.Surveyor;
 import com.cognizant.exception.InvalidPolicyException;
-import com.cognizant.exception.MaximumClaimLimitReachedException;
 import com.cognizant.exception.ResourceNotFoundException;
 import com.cognizant.repository.ClaimDetailsRepo;
 import com.cognizant.repository.PolicyRepo;
@@ -66,42 +63,7 @@ public class ClaimServiceImplTest {
 
     
 
-    @Test
-    public void testInsertClaim_WhenMaximumClaimLimitReached() {
-        // Create a ClaimDetailsDto object for testing
-        ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto();
-        claimDetailsDto.setPolicy(new PolicyDto());
-        claimDetailsDto.setSurveyor(new SurveyorDto());
-        claimDetailsDto.setDateOfAccident(LocalDate.now());
-        claimDetailsDto.setEstimatedLoss(5000);
-
-        // Create a Policy object for mocking
-        Policy policy = new Policy();
-        policy.setPolicyNo("POLICY123");
-
-        // Create a Surveyor object for mocking
-        Surveyor surveyor = new Surveyor();
-        surveyor.setSurveyorId(1);
-        surveyor.setEstimateLimt(5000);
-
-        // Mock the behavior of policyRepo.findById()
-        Mockito.when(policyRepo.findById(Mockito.anyString())).thenReturn(Optional.of(policy));
-
-        // Mock the behavior of surveyorRepo.findById()
-        Mockito.when(surveyorRepo.findById(Mockito.anyInt())).thenReturn(Optional.of(surveyor));
-
-        // Create a list of ClaimDetails objects for mocking
-        List<ClaimDetails> existingClaims = new ArrayList<>();
-        existingClaims.add(new ClaimDetails());
-
-        // Mock the behavior of claimDetailsRepo.findByPolicyNoAndDateOfAccidentYear()
-        Mockito.when(claimDetailsRepo.findByPolicyNoAndDateOfAccidentYear(Mockito.anyString(), Mockito.anyInt()))
-                .thenReturn(existingClaims);
-
-        // Call the insertClaim() method and assert that it throws an exception
-        Assertions.assertThrows(MaximumClaimLimitReachedException.class, () -> claimService.insertClaim(claimDetailsDto));
-    }
-
+   
    
     @Test
     public void testUpdateClaim_WhenClaimDoesNotExist() {

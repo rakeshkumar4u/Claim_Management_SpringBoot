@@ -3,6 +3,7 @@ package com.cognizant.controllertest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class PolicyControllerTest {
     @Test
     public void testGetAllPolicies_Positive() {
         List<PolicyDto> policyDtos = new ArrayList<>();
-        policyDtos.add(new PolicyDto("Health Insurance", "1234567890", null, null, null, null, false));
+        policyDtos.add(new PolicyDto("KU12324", "Rakesh", "Kumar", LocalDate.now(),"rakesh123@gmail.com", "ABC123", false));
         when(policyService.getAllPolicies()).thenReturn(policyDtos);
 
         ResponseEntity<List<PolicyDto>> response = policyController.getAllPolicies();
@@ -45,7 +46,7 @@ public class PolicyControllerTest {
 
     @Test
     public void testInsertPolicy_Positive() {
-        PolicyDto policyDto = new PolicyDto("Car Insurance", "0987654321", null, null, null, null, false);
+        PolicyDto policyDto = new PolicyDto("KU12324", "Rakesh", "Kumar", LocalDate.now(),"rakesh123@gmail.com", "ABC123", false);
         when(policyService.insertPolicy(any(PolicyDto.class))).thenReturn(policyDto);
 
         ResponseEntity<PolicyDto> response = policyController.insertPolicy(policyDto);

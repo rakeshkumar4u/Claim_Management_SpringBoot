@@ -10,3 +10,4 @@ public class ClaimManagementApplication {
 		SpringApplication.run(ClaimManagementApplication.class, args);
 	}	
 }
+

@@ -17,11 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cognizant.dto.ClaimDetailsDto;
 import com.cognizant.services.ClaimService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin(origins="http://localhost:4200")
 @RequestMapping("/api/claims")
+@Tag(name="ClaimService Controller", description="ClaimService Controller REST API")
 public class ClaimServiceController {
 	
 	@Autowired
@@ -29,6 +32,7 @@ public class ClaimServiceController {
 	
 	
 	@PostMapping("/")
+	@Operation(description = "Add New Claim")
 	public ResponseEntity<ClaimDetailsDto>insertClaim(@Valid @RequestBody ClaimDetailsDto claimDetailsDto)
 	{
 		ClaimDetailsDto insertedClaimDetailsDto=this.claimService.insertClaim(claimDetailsDto);
@@ -36,18 +40,21 @@ public class ClaimServiceController {
 	}
 	
 	@PutMapping("/{claimId}")
+	@Operation(description = "Update Claim Status, Amount Approved By Surveyor and Surveyor Details")
 	public ResponseEntity<ClaimDetailsDto>updateClaim(@Valid @RequestBody ClaimDetailsDto claimDetailsDto,@PathVariable String claimId)
 	{
 		ClaimDetailsDto updatedClaimDetailsDto=this.claimService.updateClaim(claimDetailsDto,claimId);
 		return new ResponseEntity<ClaimDetailsDto>(updatedClaimDetailsDto,HttpStatus.OK);
 	}
 	@GetMapping("/")
+	@Operation(description = "Retrieve All Claims")
     public ResponseEntity<List< ClaimDetailsDto>> getAllClaims() {
         List<ClaimDetailsDto> claimDetailsDtos = claimService.getAllClaims();
         return ResponseEntity.ok(claimDetailsDtos);
     }
 	
 	@GetMapping("/{claimId}")
+	@Operation(description = "Retrieve Single Claim by ID")
 	public ResponseEntity<ClaimDetailsDto> getSingleClaim(@PathVariable String claimId) {
 		return ResponseEntity.ok(this.claimService.getClaimDetailsById(claimId));
 	}

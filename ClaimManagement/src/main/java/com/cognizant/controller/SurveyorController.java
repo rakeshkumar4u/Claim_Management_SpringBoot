@@ -19,22 +19,32 @@ import java.util.*;
 
 import com.cognizant.services.SurveyorService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+
+/**
+ * @author Rakesh Kumar
+ * This class represents REST API endpoints for Surveyor
+ */
 
 @RestController
 @RequestMapping("/api/surveyors")
 @CrossOrigin(origins="http://localhost:4200")
+@Tag(name="Surveyor Controller", description="Surveyor Controller REST API")
 public class SurveyorController {
  
     @Autowired
     private SurveyorService surveyorService;
  
     @GetMapping("/")
+    @Operation(description="Retrieve All Resource of Type Surveyor")
     public ResponseEntity<List< SurveyorDto>> getAllSurveyors() {
         List<SurveyorDto> surveyorDtos = surveyorService.getAllSurveyors();
         return ResponseEntity.ok(surveyorDtos);
     }
     @PostMapping("/")
+    @Operation(description="Add New Surveyor")
 	public ResponseEntity<SurveyorDto>insertSurveyor(@Valid @RequestBody SurveyorDto surveyorDto)
 	{
     	SurveyorDto insertedSurveyorDto=this.surveyorService.insertSurveyor(surveyorDto);
@@ -42,12 +52,14 @@ public class SurveyorController {
 	}
     
     @GetMapping("/{estimatedLoss}")
+    @Operation(description = "Find Surveyors by Estimated Loss")
     public ResponseEntity<List<SurveyorDto>> findByEstimatedLoss(@PathVariable int estimatedLoss) {
         List<SurveyorDto> surveyorDtoList = surveyorService.getSurveyorsByEstimatedLoss(estimatedLoss);
         return new ResponseEntity<>(surveyorDtoList, HttpStatus.OK);
     }
     
     @PutMapping("/{claimId}")
+    @Operation(description = "Update SurveyorFeesDto and Release Surveyor Fees" )
     public ResponseEntity<SurveyorFeesDto> releaseSurveyorFees(@PathVariable String claimId) {
         SurveyorFeesDto surveyorFeesDto = surveyorService.releaseSurveyorFees(claimId); 
         // Check if the surveyorFeesDTO is null or invalid

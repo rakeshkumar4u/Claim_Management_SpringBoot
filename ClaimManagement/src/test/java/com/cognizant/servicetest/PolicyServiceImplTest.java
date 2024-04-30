@@ -25,7 +25,6 @@ public class PolicyServiceImplTest {
 
     private PolicyServiceImpl policyService;
 
-    @SuppressWarnings("deprecation")
 	@BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -35,36 +34,26 @@ public class PolicyServiceImplTest {
 
     @Test
     public void testInsertPolicy_WhenVehicleNoExists() {
-        // Create a PolicyDto object for testing
         PolicyDto policyDto = new PolicyDto();
         policyDto.setVehicleNo("ABC123");
         policyDto.setDateOfInsurance(null);
-
+        
         // Mock the behavior of policyRepo.existsByVehicleNo()
         Mockito.when(policyRepo.existsByVehicleNo("ABC123")).thenReturn(true);
-
-        // Call the insertPolicy() method and assert that it throws an exception
         Assertions.assertThrows(VehicleNoAlreadyExistsException.class, () -> policyService.insertPolicy(policyDto));
     }
 
     @Test
     public void testGetAllPolicies() {
-        // Create a list of Policy objects for mocking
         List<Policy> policies = new ArrayList<>();
         policies.add(new Policy());
         policies.add(new Policy());
 
-        // Mock the behavior of policyRepo.findAll()
         Mockito.when(policyRepo.findAll()).thenReturn(policies);
-
-        // Mock the behavior of modelMapper.map()
         Mockito.when(modelMapper.map(Mockito.any(Policy.class), Mockito.eq(PolicyDto.class)))
                 .thenReturn(new PolicyDto());
-
-        // Call the getAllPolicies() method
         List<PolicyDto> result = policyService.getAllPolicies();
 
-        // Assert the result
         Assertions.assertEquals(policies.size(), result.size());
     }
 }

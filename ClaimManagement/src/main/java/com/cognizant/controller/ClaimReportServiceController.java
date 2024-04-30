@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cognizant.services.ClaimReportService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/reports/claims")
+@Tag(name="ClaimReportService Controller", description="ClaimReportService Controller REST API")
 public class ClaimReportServiceController {
 
     private final ClaimReportService claimReportService;
@@ -21,6 +25,7 @@ public class ClaimReportServiceController {
     }
 
     @GetMapping("/pending-count")
+    @Operation(description = "Get Pending Claims Count in a particular Month and year")
     public ResponseEntity<Integer> getPendingClaimsCount(
              @RequestParam("month") int month,
              @RequestParam("year") int year) {
@@ -29,6 +34,7 @@ public class ClaimReportServiceController {
     }
  
     @GetMapping("/approved-amount")
+    @Operation(description = "Get Approved Amount by Insurance Company in a particular Month and year")
     public ResponseEntity<Integer> getApprovedAmountByInsuranceCompany(
              @RequestParam("month") int month,
              @RequestParam("year") int year) {

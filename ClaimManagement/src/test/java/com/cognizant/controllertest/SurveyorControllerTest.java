@@ -34,7 +34,7 @@ public class SurveyorControllerTest {
     @Test
     public void testGetAllSurveyors() {
         List<SurveyorDto> surveyorDtos = new ArrayList<>();
-        surveyorDtos.add(new SurveyorDto(0, "John Doe", "1234567890", 0));
+        surveyorDtos.add(new SurveyorDto(1, "Rakesh", "Kumar", 6000));
         when(surveyorService.getAllSurveyors()).thenReturn(surveyorDtos);
 
         ResponseEntity<List<SurveyorDto>> response = surveyorController.getAllSurveyors();
@@ -45,7 +45,7 @@ public class SurveyorControllerTest {
 
     @Test
     public void testInsertSurveyor() {
-        SurveyorDto surveyorDto = new SurveyorDto(0, "Jane Smith", "0987654321", 0);
+        SurveyorDto surveyorDto = new SurveyorDto(1, "Rakesh", "Kumar", 6000);
         when(surveyorService.insertSurveyor(any(SurveyorDto.class))).thenReturn(surveyorDto);
 
         ResponseEntity<SurveyorDto> response = surveyorController.insertSurveyor(surveyorDto);
@@ -58,7 +58,7 @@ public class SurveyorControllerTest {
     public void testFindByEstimatedLoss() {
         int estimatedLoss = 5000;
         List<SurveyorDto> surveyorDtoList = new ArrayList<>();
-        surveyorDtoList.add(new SurveyorDto(0, "Alice Johnson", "5555555555",0));
+        surveyorDtoList.add(new SurveyorDto(1, "Rakesh", "Kumar", 6000));
         when(surveyorService.getSurveyorsByEstimatedLoss(estimatedLoss)).thenReturn(surveyorDtoList);
 
         ResponseEntity<List<SurveyorDto>> response = surveyorController.findByEstimatedLoss(estimatedLoss);

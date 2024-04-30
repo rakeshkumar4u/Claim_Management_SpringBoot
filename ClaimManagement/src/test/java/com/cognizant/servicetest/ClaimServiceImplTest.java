@@ -1,5 +1,4 @@
 package com.cognizant.servicetest;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +46,6 @@ public class ClaimServiceImplTest {
 
     @Test
     public void testInsertClaim_WhenPolicyDoesNotExist() {
-        // Create a ClaimDetailsDto object for testing
         ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto();
         claimDetailsDto.setPolicy(new PolicyDto());
         claimDetailsDto.setSurveyor(new SurveyorDto());
@@ -56,18 +54,11 @@ public class ClaimServiceImplTest {
 
         // Mock the behavior of policyRepo.findById()
         Mockito.when(policyRepo.findById(Mockito.anyString())).thenReturn(Optional.empty());
-
-        // Call the insertClaim() method and assert that it throws an exception
         Assertions.assertThrows(InvalidPolicyException.class, () -> claimService.insertClaim(claimDetailsDto));
     }
 
-    
-
-   
-   
     @Test
     public void testUpdateClaim_WhenClaimDoesNotExist() {
-        // Create a ClaimDetailsDto object for testing
         ClaimDetailsDto claimDetailsDto = new ClaimDetailsDto();
         claimDetailsDto.setClaimStatus(true);
         claimDetailsDto.setAmtApprovedBySurveyor(1000);
@@ -76,29 +67,21 @@ public class ClaimServiceImplTest {
 
         // Mock the behavior of claimDetailsRepo.findById()
         Mockito.when(claimDetailsRepo.findById(Mockito.anyString())).thenReturn(Optional.empty());
-
-        // Call the updateClaim() method and assert that it throws an exception
         Assertions.assertThrows(ResourceNotFoundException.class, () -> claimService.updateClaim(claimDetailsDto, "CLAIM123"));
     }
 
     @Test
     public void testGetAllClaims() {
-        // Create a list of ClaimDetails objects for mocking
         List<ClaimDetails> claims = new ArrayList<>();
         claims.add(new ClaimDetails());
         claims.add(new ClaimDetails());
-
-        // Mock the behavior of claimDetailsRepo.findAll()
         Mockito.when(claimDetailsRepo.findAll()).thenReturn(claims);
 
         // Mock the behavior of modelMapper.map()
         Mockito.when(modelMapper.map(Mockito.any(ClaimDetails.class), Mockito.eq(ClaimDetailsDto.class)))
                 .thenReturn(new ClaimDetailsDto());
-
-        // Call the getAllClaims() method
         List<ClaimDetailsDto> result = claimService.getAllClaims();
 
-        // Assert the result
         Assertions.assertEquals(claims.size(), result.size());
     }
 
@@ -108,8 +91,6 @@ public class ClaimServiceImplTest {
     public void testGetClaimDetailsById_WhenClaimDoesNotExist() {
         // Mock the behavior of claimDetailsRepo.findById()
         Mockito.when(claimDetailsRepo.findById(Mockito.anyString())).thenReturn(Optional.empty());
-
-        // Call the getClaimDetailsById() method and assert that it throws an exception
         Assertions.assertThrows(ResourceNotFoundException.class, () -> claimService.getClaimDetailsById("CLAIM123"));
     }
 }

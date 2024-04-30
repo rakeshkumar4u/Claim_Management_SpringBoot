@@ -38,7 +38,7 @@ public class SurveyorServiceImpl implements SurveyorService {
 	    @Override
 	    @Transactional
 	    public SurveyorDto insertSurveyor(SurveyorDto surveyorDto) {
-	        // Check if a surveyor with the same estimateLimt already exists
+	        // Checking if a surveyor with the same estimateLimt already exists
 	        Surveyor existingSurveyor = surveyorRepo.findByEstimateLimt(surveyorDto.getEstimateLimt());
 	        if (existingSurveyor != null) {
 	            throw new SurveyorExistsException("Surveyor already exists with estimateLimt: " + surveyorDto.getEstimateLimt());
@@ -81,14 +81,11 @@ public class SurveyorServiceImpl implements SurveyorService {
 	@Override
 	@Transactional
 	public SurveyorFeesDto releaseSurveyorFees(String claimId) {
-	    // Retrieve existing claim details
 	    ClaimDetails existingClaim = claimDetailsRepo.findById(claimId)
 	            .orElseThrow(() -> new ResourceNotFoundException("Claim not found with ID " + claimId));
 	 
 	    // Get the surveyor fee from the existing claim
 	    int surveyorFee = existingClaim.getSurveyorFees();
-	 
-	    // Create and return SurveyorFeesDTO
 	    SurveyorFeesDto surveyorFeesDto = new SurveyorFeesDto();
 	    surveyorFeesDto.setClaimId(claimId);
 	    surveyorFeesDto.setSurveyorFees(surveyorFee);

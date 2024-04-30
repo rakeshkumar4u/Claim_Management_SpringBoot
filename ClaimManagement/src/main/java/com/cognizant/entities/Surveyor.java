@@ -36,3 +36,4 @@ public class Surveyor {
 	private List<ClaimDetails> claimDetails;
 	
 }
+ 

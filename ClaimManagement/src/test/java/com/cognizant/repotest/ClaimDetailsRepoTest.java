@@ -15,7 +15,7 @@ public class ClaimDetailsRepoTest {
 
     @Test
     public void findByPolicyNoAndDateOfAccidentYearTest() {
-        String policyId = "12345";
+        String policyId = "KU12324";
         int year = 2024;
         List<ClaimDetails> result = claimDetailsRepo.findByPolicyNoAndDateOfAccidentYear(policyId, year);
         assertNotNull(result);
@@ -33,6 +33,10 @@ public class ClaimDetailsRepoTest {
     
     
     
+    
+    
+    
+  
     
     
     

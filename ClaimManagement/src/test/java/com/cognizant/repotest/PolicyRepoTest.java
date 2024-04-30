@@ -15,15 +15,11 @@ public class PolicyRepoTest {
 
     @Test
     public void testExistsByVehicleNo_WhenPolicyExists() {
-        // Create a Policy object and save it to the database
         Policy policy = new Policy();
         policy.setVehicleNo("ABC123");
         policyRepo.save(policy);
-
-        // Call the existsByVehicleNo() method
         boolean result = policyRepo.existsByVehicleNo("ABC123");
 
-        // Assert the result
         Assertions.assertTrue(result);
     }
 }

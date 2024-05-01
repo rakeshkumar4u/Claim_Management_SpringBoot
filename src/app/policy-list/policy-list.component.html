@@ -1,0 +1,28 @@
+<h2> Policy Details</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>PolicyNo</th>
+            <th>Insured First Name</th>
+            <th>Insured Last Name</th>
+            <th>Date Of Insurance</th>
+            <th>Email Id</th>
+            <th>Vehicle No</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let policy of policies ">
+            <td>{{policy.policyNo}}</td>
+            <td>{{policy.insuredFirstName}}</td>
+            <td>{{policy.insuredLastName}}</td>
+            <td>{{policy.dateOfInsurance}}</td>
+            <td>{{policy.emailId}}</td>
+            <td>{{policy.vehicleNo}}</td>
+            <td>{{policy.status}}</td>
+        </tr>
+    </tbody>
+</table>
+
+

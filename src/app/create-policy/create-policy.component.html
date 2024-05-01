@@ -1,0 +1,73 @@
+<div class="col-md-4 offset-md-3">
+    <h3> Create Policy </h3>
+    <form (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+            <label> Insured First Name</label>
+            <input type="text" class="form-control" id="insuredFirstName" [(ngModel)]="policy.insuredFirstName"
+                name="insuredFirstName" required minlength="5" #firstNameInput="ngModel">
+
+            <div *ngIf="firstNameInput.touched && !firstNameInput.valid" style="color: red;">
+                Insured First Name should be at least 5 characters
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label> Insured Last Name</label>
+            <input type="text" class="form-control" id="insuredLastName" [(ngModel)]="policy.insuredLastName"
+                name="insuredLastName" required minlength="5" #lastNameInput="ngModel">
+
+            <div *ngIf="lastNameInput.touched && !lastNameInput.valid" style="color: red;">
+                Insured Last Name should be at least 5 characters
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label> Date Of Insurance</label>
+            <input type="date" class="form-control" id="dateOfInsurance" [(ngModel)]="policy.dateOfInsurance"
+                name="dateOfInsurance" required [max]="today | date:'yyyy-MM-dd'" #dateInput="ngModel">
+
+            <div *ngIf="dateInput.touched && !dateInput.valid" style="color: red;">
+                Date of Insurance must be required and in the past or today
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label> Email Id</label>
+            <input type="email" class="form-control" id="emailId" [(ngModel)]="policy.emailId" name="emailId" required
+                #emailInput="ngModel">
+
+            <div *ngIf="emailInput.touched && !emailInput.valid" style="color: red;">
+                Please enter a valid Email Id
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label> Vehicle No</label>
+            <input type="text" class="form-control" id="vehicleNo" [(ngModel)]="policy.vehicleNo" name="vehicleNo"
+                required #vehicleNoInput="ngModel">
+
+            <div *ngIf="vehicleNoInput.touched && !vehicleNoInput.valid" style="color: red;">
+                Vehicle Number is mandatory
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label> Status</label>
+            <select class="form-control" id="status" [(ngModel)]="policy.status" name="status" required>
+                <option value="true">active</option>
+                <option value="false">inactive</option>
+            </select>
+        </div>
+        <br>
+
+        <button class="btn btn-success" type="submit"
+            [disabled]="!firstNameInput.valid || !lastNameInput.valid || !dateInput.valid || !emailInput.valid || !vehicleNoInput.valid">
+            Submit
+        </button>
+        <div class="error-msg" *ngIf="showError;">
+            <p style="color: red;">{{showError}}</p>
+        </div>
+    </form>
+</div>

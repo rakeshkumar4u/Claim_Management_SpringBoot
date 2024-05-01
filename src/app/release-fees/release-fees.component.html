@@ -1,0 +1,18 @@
+<div class="release-fees">
+    <h4>Release Surveyor Fees</h4>
+   
+    <div class="form-group">
+      <label for="claimId">Enter Claim ID:</label>
+      <input type="text" class="form-control" id="claimId" [(ngModel)]="claimId" name="claimId" style="width: 300px;">
+    </div>
+    <br>
+    <button type="button" class="btn btn-primary" (click)="onSubmit()">Release Surveyor Fees</button>
+    <div  class="error-msg" *ngIf="showError;"><p style="color: red;">{{showError}}</p></div>
+
+   <br> <br>
+    <div *ngIf="releasedSurveyorFees">
+      <h6>Surveyor Fees Released Successfully <span style="color:green;">&#10003;</span></h6>
+      <p><strong>Claim ID:</strong> {{ releasedSurveyorFees.claimId }}</p>
+      <p><strong>Surveyor Fees:</strong> {{ releasedSurveyorFees.surveyorFees }}</p>
+    </div>
+  </div>

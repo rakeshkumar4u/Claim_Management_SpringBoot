@@ -1,0 +1,47 @@
+<div class="col-md-4 offset-md-3">
+    <h3> Add Surveyor </h3>
+    <form (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+            <label> First Name</label>
+            <input type="text" class="form-control" id="firstName" [(ngModel)]="surveyor.firstName" name="firstName"
+                required #firstNameInput="ngModel">
+
+            <div *ngIf="firstNameInput.touched && !firstNameInput.valid" style="color: red;">
+                First Name is mandatory.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label> Last Name</label>
+            <input type="text" class="form-control" id="lastName" [(ngModel)]="surveyor.lastName" name="lastName"
+                required #lastNameInput="ngModel">
+
+            <div *ngIf="lastNameInput.touched && !lastNameInput.valid" style="color: red;">
+                Last Name is mandatory.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="estimateLimt">Estimate Limit</label>
+            <input type="number" class="form-control" id="estimateLimt" [(ngModel)]="surveyor.estimateLimt"
+              name="estimateLimt" required #estimateLimtInput="ngModel">
+          
+            <div *ngIf="estimateLimtInput.touched && !estimateLimtInput.valid" style="color: red;">
+              Estimate Limit is required.
+            </div>
+            <div *ngIf="estimateLimtInput.value < 0" style="color: red;">
+              Estimate Limit cannot be negative.
+            </div>
+          </div>
+          
+
+        <br>
+
+        <button class="btn btn-success" type="submit"
+            [disabled]="!firstNameInput.valid || !lastNameInput.valid || surveyor.estimateLimt < 0"> Submit</button>
+        <div class="error-msg" *ngIf="showError;">
+            <p style="color: red;">{{showError}}</p>
+        </div>
+    </form>
+</div>

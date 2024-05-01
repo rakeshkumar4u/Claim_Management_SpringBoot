@@ -1,0 +1,20 @@
+<h2> Surveyor Details</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Surveyor ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Estimate Limt</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let surveyor of surveyors">
+            <td>{{surveyor.surveyorId}}</td>
+            <td>{{surveyor.firstName}}</td>
+            <td>{{surveyor.lastName}}</td>
+            <td>{{surveyor.estimateLimt}}</td>
+        </tr>
+    </tbody>
+</table>

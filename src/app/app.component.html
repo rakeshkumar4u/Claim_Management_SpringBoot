@@ -1,0 +1,42 @@
+
+<div [style.background]="greyColor"><h3 class="text-center">{{ title }}</h3></div>
+
+<nav  class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <ul class="navbar-nav">
+
+        <li class="nav-item">
+            <a routerLink="surveyors" routerLinkActive="active" class="nav-link">Surveyor List</a>
+        </li>
+        <li class="nav-item">
+            <a routerLink="create-surveyor" routerLinkActive="active" class="nav-link">Add Surveyor</a>
+        </li>
+
+        <li class="nav-item">
+            <a routerLink="policies" routerLinkActive="active" class="nav-link">View Policies</a>
+        </li>
+        <li class="nav-item">
+            <a routerLink="create-policy" routerLinkActive="active" class="nav-link">Create Policy</a>
+        </li>
+
+        <li class="nav-item">
+            <a routerLink="claims" routerLinkActive="active" class="nav-link">Claim Details</a>
+        </li>
+        <li class="nav-item">
+            <a routerLink="create-claim" routerLinkActive="active" class="nav-link">Add New Claim</a>
+        </li>
+        <li class="nav-item">
+            <a routerLink="search-surveyor" routerLinkActive="active" class="nav-link">Search Surveyor</a>
+        </li>
+        <li class="nav-item">
+            <a routerLink="release-fees" routerLinkActive="active" class="nav-link">Release Fees of Surveyor</a>
+        </li>
+           
+    </ul>
+</nav>
+
+
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
+
+

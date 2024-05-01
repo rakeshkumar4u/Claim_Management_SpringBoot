@@ -1,0 +1,39 @@
+<h2>Claim Details</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ClaimId</th>
+            <th>PolicyNo</th>
+            <th>EstimatedLoss</th>
+            <th>DateOfAccident</th>
+            <th>ClaimStatus</th>
+            <th>SurveyorID</th>
+            <th>AmountApprovedBySurveyor</th>
+            <th>InsuranceCompanyApproval</th>
+            <th>WithdrawClaim</th>
+            <th>SurveyorFees</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let claim of claims ">
+            <td>{{claim.claimId}}</td>
+            <td>{{claim.policy.policyNo}}</td>
+            <td>{{claim.estimatedLoss}}</td>
+            <td>{{claim.dateOfAccident}}</td>
+            <td>{{claim.claimStatus}}</td>
+            <td>{{claim.surveyor.surveyorId}}</td>
+            <td>{{claim.amtApprovedBySurveyor}}</td>
+            <td>{{claim.insuranceCompanyApproval}}</td>
+            <td>{{claim.withdrawClaim}}</td>
+            <td>{{claim.surveyorFees}}</td>
+            <td>
+                <button (click)="updateClaim(claim.claimId)" class="btn btn-info">Update</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+

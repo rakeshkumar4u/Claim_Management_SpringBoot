@@ -1,0 +1,39 @@
+<div class="search-surveyor">
+  <h4>Search Surveyor by Estimated Loss</h4>
+  <div class="form-group">
+    <label for="estimatedLoss">Enter Estimated Loss:</label><br>
+    <input type="number" class="form-control" id="estimatedLoss" [(ngModel)]="estimatedLoss" name="estimatedLoss" style="width: 300px;" required #estimatedLossInput="ngModel">
+
+    <div *ngIf="estimatedLossInput.touched && !estimatedLossInput.valid" style="color: red;">
+      Estimated Loss is required.
+    </div>
+    <div *ngIf="estimatedLossInput.value < 0" style="color: red;">
+      Estimated Loss cannot be negative.
+    </div>
+  </div>
+  <br>
+  <button type="button" class="btn btn-primary" (click)="searchSurveyors()" [disabled]="!estimatedLossInput.valid || estimatedLossInput.value < 0">Search</button>
+  <div class="error-msg" *ngIf="showError;"><p style="color: red;">{{showError}}</p></div>
+ 
+  <div *ngIf="surveyors && surveyors.length > 0">
+    <h2>Surveyor Details</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Surveyor ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Estimate Limit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let surveyor of surveyors">
+          <td>{{ surveyor.surveyorId }}</td>
+          <td>{{ surveyor.firstName }}</td>
+          <td>{{ surveyor.lastName }}</td>
+          <td>{{ surveyor.estimateLimt }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
